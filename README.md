@@ -8,7 +8,8 @@ Usage
 Showing an image with parallax effect in a ListView is as quite simple.
 Your adapter can inflate an xml layout the looks a lot like this one.
 ```xml
-<com.appsingularity.android.parallaxlistitem.ParallaxListItem xmlns:android="http://schemas.android.com/apk/res/android"
+<com.appsingularity.android.parallaxlistitem.ParallaxListItem 
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="@dimen/image_height"
