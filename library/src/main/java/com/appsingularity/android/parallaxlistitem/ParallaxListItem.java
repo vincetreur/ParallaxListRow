@@ -54,25 +54,22 @@ public class ParallaxListItem extends ImageView implements OnScrollListener {
 
     @Override
     public void onScroll(AbsListView listView, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-
-        // top of screen (scale = 0), we show the middle of the image 0.25f-0.75f
-        // bottom of screen (scale = 1), we show the bottom of the image 0.5f-1f;
-        float visiblePart = 0.5f;
-        float top = getTop();
-        float scale = top / listView.getMeasuredHeight();
-
-        // At 0 (top of screen, (scale=1)) we show the middle of the image (0.25)
-        float topPart = (scale * 0.25f) + 0.25f;
-        float bottomPart = topPart + visiblePart;
-
         float imageHeight = getDrawable().getIntrinsicHeight();
         float imageWidth = getDrawable().getIntrinsicWidth();
-        float hStart = imageHeight * topPart;
-        float hEnd = hStart + getMeasuredHeight();
+        float viewHeight = getMeasuredHeight();
+        float viewWidth = getMeasuredWidth();
+        float offScreenHalf = (imageHeight - viewHeight) / 2f;
+        float top = getTop();
+        float scale = top / listView.getMeasuredHeight();
+        if (scale > 1) { scale = 1; }
+        if (scale < -1) { scale = -1; }
+        float hStart = (scale * offScreenHalf) + offScreenHalf;
+        float hEnd = hStart + viewHeight;
+
         RectF drawableRect = new RectF(0, hStart, imageWidth, hEnd);
 
         Matrix m = getImageMatrix();
-        RectF viewRect = new RectF(0, 0, getMeasuredWidth(), getMeasuredHeight());
+        RectF viewRect = new RectF(0, 0, viewWidth, viewHeight);
         m.setRectToRect(drawableRect, viewRect, ScaleToFit.FILL);
         setImageMatrix(m);
         invalidate();
